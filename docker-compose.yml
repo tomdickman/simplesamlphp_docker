@@ -2,8 +2,8 @@ version: '3'
 
 services:
   simplesamlphp:
-    build: ./simplesamlphp
+    build: ./dockerconf
     ports:
       - "8001:8001"
     volumes:
-      - ./simplesamlphp:/simplesamlphp
+      - ./dockerconf:/dockerconf

@@ -72,8 +72,8 @@ $config = [
      * The email address will be used as the recipient address for error reports, and
      * also as the technical contact in generated metadata.
      */
-    'technicalcontact_name' => 'Administrator',
-    'technicalcontact_email' => 'na@example.org',
+    'technicalcontact_name' => 'Tom Dickman',
+    'technicalcontact_email' => 'tomdickman@catalyst-au.net',
 
     /*
      * The envelope from address for outgoing emails.
@@ -267,7 +267,7 @@ $config = [
      * Options: [syslog,file,errorlog,stderr]
      *
      */
-    'logging.level' => SimpleSAML\Logger::NOTICE,
+    'logging.level' => SimpleSAML\Logger::DEBUG,
     'logging.handler' => 'syslog',
 
     /*
