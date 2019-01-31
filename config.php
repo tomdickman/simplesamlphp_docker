@@ -27,8 +27,8 @@ $config = [
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'http://localhost:8001/',
-
+    //'baseurlpath' => 'https://192.172.0.2:7443',
+    'baseurlpath' => '/',
     /*
      * The 'application' configuration array groups a set configuration options
      * relative to an application protected by SimpleSAMLphp.

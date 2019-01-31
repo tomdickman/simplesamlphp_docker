@@ -46,10 +46,15 @@ RUN rm -fr /var/simplesamlphp/config/authsources.php
 COPY authsources.php /var/simplesamlphp/config/authsources.php
 RUN rm -fr /var/simplesamlphp/config/config.php
 COPY config.php /var/simplesamlphp/config/config.php
-# Copy across our certificates
+# Copy across our certificates and update permissions
 RUN mkdir /var/simplesamlphp/cert
-COPY example.org.crt /var/simplesamlphp/cert/server.crt
-COPY example.org.pem /var/simplesamlphp/cert/server.pem
+COPY idp.crt /var/simplesamlphp/cert/idp.crt
+COPY idp.pem /var/simplesamlphp/cert/idp.pem
+RUN chown www-data.www-data /var/simplesamlphp/cert/idp*
+RUN chmod 755 /var/simplesamlphp/cert/idp.crt
+RUN chmod 700 /var/simplesamlphp/cert/idp.pem
+COPY example.org.crt /etc/nginx/conf.d/cert.crt
+COPY example.org.pem /etc/nginx/conf.d/key.pem
 # Copy across idP and SP configurations
 COPY saml20-idp-hosted.php /var/simplesamlphp/metadata/saml20-idp-hosted.php
 COPY saml20-sp-remote.php /var/simplesamlphp/metadata/saml20-sp-remote.php

@@ -1,5 +1,5 @@
 <?php
-$metadata['http://localhost:8001'] = array(
+$metadata['https://192.172.0.2:7443'] = array(
     /*
      * The hostname for this IdP. This makes it possible to run multiple
      * IdPs from the same configuration. '__DEFAULT__' means that this one
@@ -11,8 +11,8 @@ $metadata['http://localhost:8001'] = array(
      * The private key and certificate to use when signing responses.
      * These are stored in the cert-directory.
      */
-    'privatekey' => 'server.pem',
-    'certificate' => 'server.crt',
+    'privatekey' => 'idp.pem',
+    'certificate' => 'idp.crt',
 
     /*
      * The authentication source which should be used to authenticate the
