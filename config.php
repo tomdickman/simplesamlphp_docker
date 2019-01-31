@@ -27,8 +27,8 @@ $config = [
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'http://localhost:8001/',
-
+    //'baseurlpath' => 'https://192.172.0.2:7443',
+    'baseurlpath' => '/',
     /*
      * The 'application' configuration array groups a set configuration options
      * relative to an application protected by SimpleSAMLphp.
@@ -72,8 +72,8 @@ $config = [
      * The email address will be used as the recipient address for error reports, and
      * also as the technical contact in generated metadata.
      */
-    'technicalcontact_name' => 'Administrator',
-    'technicalcontact_email' => 'na@example.org',
+    'technicalcontact_name' => 'Tom Dickman',
+    'technicalcontact_email' => 'tomdickman@catalyst-au.net',
 
     /*
      * The envelope from address for outgoing emails.
@@ -267,7 +267,7 @@ $config = [
      * Options: [syslog,file,errorlog,stderr]
      *
      */
-    'logging.level' => SimpleSAML\Logger::NOTICE,
+    'logging.level' => SimpleSAML\Logger::DEBUG,
     'logging.handler' => 'syslog',
 
     /*

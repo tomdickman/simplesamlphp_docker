@@ -31,18 +31,33 @@ RUN locale-gen en_AU.UTF-8
 # Get Composer in order to install dependencies
 RUN cd /usr/local/lib/ && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
-# Download Simple SAML PHP and install dependencies from Composer and NPM
+# Download Simple SAML PHP from git repo
 RUN cd /var && git clone https://github.com/simplesamlphp/simplesamlphp.git simplesamlphp
+# Copy all template config and metadata across
+RUN cp -r /var/simplesamlphp/config-templates/* /var/simplesamlphp/config/
+RUN cp -r /var/simplesamlphp/metadata-templates/* /var/simplesamlphp/metadata/
+# Install dependencies from Composer and NPM
 RUN cd /var/simplesamlphp && composer install && npm install && npm build
 
-# Configure Simple SAML PHPcd 
+# Allow simpleSAMLphp to work as idP
 RUN touch /var/simplesamlphp/modules/exampleauth/enable
-# RUN mkdir /var/simplesamlphp/cert
-# COPY authsources.php /simplesamlphp/config/authsources.php
+# Copy across config
+RUN rm -fr /var/simplesamlphp/config/authsources.php
+COPY authsources.php /var/simplesamlphp/config/authsources.php
+RUN rm -fr /var/simplesamlphp/config/config.php
 COPY config.php /var/simplesamlphp/config/config.php
-# COPY example.org.crt /simplesamlphp/cert/server.crt
-# COPY example.org.pem /simplesamlphp/cert/server.pem
-# COPY saml20-idp-hosted.php /simplesamlphp/metadata/saml20-idp-hosted.php
+# Copy across our certificates and update permissions
+RUN mkdir /var/simplesamlphp/cert
+COPY idp.crt /var/simplesamlphp/cert/idp.crt
+COPY idp.pem /var/simplesamlphp/cert/idp.pem
+RUN chown www-data.www-data /var/simplesamlphp/cert/idp*
+RUN chmod 755 /var/simplesamlphp/cert/idp.crt
+RUN chmod 700 /var/simplesamlphp/cert/idp.pem
+COPY example.org.crt /etc/nginx/conf.d/cert.crt
+COPY example.org.pem /etc/nginx/conf.d/key.pem
+# Copy across idP and SP configurations
+COPY saml20-idp-hosted.php /var/simplesamlphp/metadata/saml20-idp-hosted.php
+COPY saml20-sp-remote.php /var/simplesamlphp/metadata/saml20-sp-remote.php
 
 # Configure server
 RUN rm /etc/nginx/sites-available/default
@@ -53,5 +68,5 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY php.ini /etc/php/7.2/fpm/php.ini
 
-# Run the instance 
+# Run it all
 CMD service php7.2-fpm start && nginx
